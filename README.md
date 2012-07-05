@@ -18,6 +18,10 @@ WARNING: Before running any of these scripts you must load your environment vari
 
 Basic import funcionality from Wordpress export file.
 
+### scripts/replace
+
+Basic global search+replace on all the chapters in a book.
+
 Author
 ------
 
