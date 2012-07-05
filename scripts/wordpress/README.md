@@ -13,8 +13,7 @@ Wordpress export you can use example file "posts.xml" (i downloaded it from here
     wordpress_import.py --help
     wordpress_import.py -o aerkalov posts.xml
     wordpress_import.py -o aerkalov -t "My Wordpress book" posts.xml
-    wordpress_import.py -u "wordpressbook" posts.xml```
-
+    wordpress_import.py -u "wordpressbook" posts.xml
 
 Author
 ------
