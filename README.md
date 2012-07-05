@@ -6,8 +6,8 @@ Booktype tips &amp; tricks, examples, ...
 Getting the code
 ----------------
 
- $ git clone git://github.com/aerkalov/booktype-scrolls.git
- $ cd booktype-scrolls
+    $ git clone git://github.com/aerkalov/booktype-scrolls.git
+    $ cd booktype-scrolls
 
 Scrolls
 -------
@@ -16,7 +16,7 @@ WARNING: Before running any of these scripts you must load your environment vari
 
 ### scripts/wordpress
 
-Basic import funcionality from Wordpress export.
+Basic import funcionality from Wordpress export file.
 
 Author
 ------

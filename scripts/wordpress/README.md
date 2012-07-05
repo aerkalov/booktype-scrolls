@@ -10,11 +10,10 @@ Start it
 You must load environment variables for your Booktype project first! If you don't have your own
 Wordpress export you can use example file "posts.xml" (i downloaded it from here http://wpcandy.com/made/the-sample-post-collection)
 
-
-```wordpress_import.py --help
-wordpress_import.py -o aerkalov posts.xml
-wordpress_import.py -o aerkalov -t "My Wordpress book" posts.xml
-wordpress_import.py -u "wordpressbook" posts.xml```
+    wordpress_import.py --help
+    wordpress_import.py -o aerkalov posts.xml
+    wordpress_import.py -o aerkalov -t "My Wordpress book" posts.xml
+    wordpress_import.py -u "wordpressbook" posts.xml```
 
 
 Author
