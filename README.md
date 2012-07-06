@@ -9,7 +9,7 @@ Getting the code
     $ git clone git://github.com/aerkalov/booktype-scrolls.git
     $ cd booktype-scrolls
 
-Scrolls
+Scripts
 -------
 
 WARNING: Before running any of these scripts you must load your environment variables from Booktype project.
@@ -21,6 +21,11 @@ Basic import funcionality from Wordpress export file.
 ### scripts/replace
 
 Basic global search+replace on all the chapters in a book.
+
+Snippets
+--------
+
+### snippets/users.md
 
 Author
 ------
