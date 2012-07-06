@@ -2,6 +2,7 @@ User snippets
 =============
 
 Snippets are small pieces of Python code you can use from your Django shell.
+
 Setup
 -----
 
