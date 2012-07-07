@@ -29,6 +29,8 @@ Snippets
 
 ### snippets/license.md
 
+### snippets/books.md
+
 Author
 ------
 
