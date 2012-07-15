@@ -343,5 +343,5 @@ echo "---------------------------------------------------------------"
     print fmt("\nBooktype has been installed in '%s' directory. We need to create superuser now. Please start this command:" % projectDir, "yellow")
     print fmt("     %s/create.sh\n" % projectDir, "blue")
     print fmt("\nAfter that you can start Booktype with:", "yellow")
-    print fmr("     %s/start.sh\n" % projectDir, "blue")
+    print fmt("     %s/start.sh\n" % projectDir, "blue")
 
