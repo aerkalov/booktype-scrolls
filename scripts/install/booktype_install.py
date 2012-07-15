@@ -284,6 +284,7 @@ if __name__ == '__main__':
 . %(project)s/mybook/booki.env
 django-admin.py syncdb --noinput
 django-admin.py migrate
+django-admin.py loaddata documentation_licenses
 ''' % {'project': projectDir}
 
     try:
