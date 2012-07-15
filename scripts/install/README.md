@@ -18,7 +18,7 @@ Start it
 
 Download first and then start:
 
-    curl -s https://raw.github.com/aerkalov/booktype-scrolls/master/scripts/install/booktype_install.py > booktype_install.py
+    wget https://raw.github.com/aerkalov/booktype-scrolls/master/scripts/install/booktype_install.py 
 
     python booktype_install.py --help
     python booktype_install.py -p myproject
