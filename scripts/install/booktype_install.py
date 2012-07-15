@@ -29,6 +29,7 @@ PACKAGES = {'debian': ['python', 'python-dev', 'sqlite3', 'git-core',
                        'redis-server', 'libxml2-dev', 'libxslt-dev'],
             'ubuntu': ['python', 'python-dev', 'sqlite3', 'git-core',
                        'python-pip', 'python-virtualenv',
+                       'libjpeg-dev', 'zlib1g-dev',
                        'redis-server', 'libxml2-dev', 'libxslt-dev'],
             'centos': ['python', 'python-devel', 'sqlite', 'git',
                        'python-virtualenv', 'python-pip', 'redis',
@@ -77,7 +78,7 @@ def showNotSupported():
               * Debian 6\n""", "yellow")
 
 def _ubuntuPackageInstalled(packageName):
-    ret = subprocess.call('dpkg-query -W %s 1>/dev/null 2>/dev/null' % packageName, shell=True)
+    ret = subprocess.call('dpkg-query -s %s 1>/dev/null 2>/dev/null' % packageName, shell=True)
     return ret
 
 
@@ -254,9 +255,8 @@ if __name__ == '__main__':
         print fmt("[WHAT TO DO] Check your virtualenv installation and try again.\n", "yellow")
         sys.exit(1)
 
-    # 7. install pip
-    if platform == 'debian':
-        command = '. %s/bin/activate && pip install Django==1.3 South==0.7.5 unidecode lxml' % projectDir
+    if platform in ['debian', 'ubuntu']:
+        command = '. %s/bin/activate && pip install Django==1.3 South==0.7.5 unidecode lxml PIL' % projectDir
     else:
         command = '. %s/bin/activate && pip install Django==1.3 South==0.7.5 unidecode lxml PIL' % projectDir
 
