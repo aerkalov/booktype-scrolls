@@ -22,6 +22,11 @@ Basic import funcionality from Wordpress export file.
 
 Basic global search+replace on all the chapters in a book.
 
+### scripts/install
+
+Basic Booktype install inside of virtualenv environment with sqlite support.
+
+
 Snippets
 --------
 
