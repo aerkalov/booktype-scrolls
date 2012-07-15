@@ -323,7 +323,7 @@ django-admin.py createsuperuser
 echo
 echo "---------------------------------------------------------------"
 echo "Use this command to start Booktype:"
-echo "%(cwd)/%(project)s/start.sh"
+echo "%(cwd)s/%(project)s/start.sh"
 echo "---------------------------------------------------------------"
 ''' % {'cwd': workingDir, 'project': projectDir}
 
