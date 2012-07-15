@@ -321,6 +321,10 @@ django-admin.py runserver 0.0.0.0:%(port)d
 . %(cwd)s/%(project)s/mybook/booki.env
 
 django-admin.py createsuperuser
+echo "---------------------------------------------------------"
+echo "Use this command to start Booktype:"
+echo "   %(project)s/start.sh"
+echo "---------------------------------------------------------"
 ''' % {'cwd': workingDir, 'project': projectDir}
 
     try:
@@ -335,4 +339,7 @@ django-admin.py createsuperuser
         print fmt("\n[ERROR] Could not set permissions on start file", "red")
         print fmt("[WHAT TO DO] chmod u+x %s/start.sh" % projectDir, shell=True) 
 
-    print ''
+
+    print fmt("Booktype has been installed in '%s' directory. We need to create superuser now. Please start this command:" % projectDir, "yellow")
+    print fmt("     %s/create.sh\n" % projectDir, "blue")
+
