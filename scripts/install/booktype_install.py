@@ -314,17 +314,17 @@ django-admin.py runserver 0.0.0.0:%(port)d
         print fmt("[WHAT TO DO] Check permissions on '%s' directory. Check if your disk is full.\n" % projectDir, "yellow")
         sys.exit(1)
 
-
     script = '''#!/usr/bin/env bash
 
 . %(cwd)s/%(project)s/bin/activate
 . %(cwd)s/%(project)s/mybook/booki.env
 
 django-admin.py createsuperuser
-echo "---------------------------------------------------------"
+echo
+echo "---------------------------------------------------------------"
 echo "Use this command to start Booktype:"
-echo "   %(project)s/start.sh"
-echo "---------------------------------------------------------"
+echo "%(cwd)/%(project)s/start.sh"
+echo "---------------------------------------------------------------"
 ''' % {'cwd': workingDir, 'project': projectDir}
 
     try:
@@ -340,6 +340,8 @@ echo "---------------------------------------------------------"
         print fmt("[WHAT TO DO] chmod u+x %s/start.sh" % projectDir, shell=True) 
 
 
-    print fmt("Booktype has been installed in '%s' directory. We need to create superuser now. Please start this command:" % projectDir, "yellow")
+    print fmt("\nBooktype has been installed in '%s' directory. We need to create superuser now. Please start this command:" % projectDir, "yellow")
     print fmt("     %s/create.sh\n" % projectDir, "blue")
+    print fmt("\nAfter that you can start Booktype with:", "yellow")
+    print fmr("     %s/start.sh\n" % projectDir, "blue")
 
