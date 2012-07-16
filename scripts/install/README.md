@@ -15,13 +15,23 @@ Tested on
 
 Start it
 --------
-
-Download first and then start:
+Download the script and execute it. It will download and install required packages. When it is done it will tell you how to create user account and start Booktype. You don’t need to be root to start this install script but you do need sudo permissions in case it must install some system packages. You will need to confirm installation of new packages and you will be informed which commands are being executed in the background. Without your permission new packages will not be installed on the system. Feel free to analyze the script before you start it.
 
     wget https://raw.github.com/aerkalov/booktype-scrolls/master/scripts/install/booktype_install.py 
+    python booktype_install.py
+
+Arguments
+---------
+Get list of all the arguments:
 
     python booktype_install.py --help
+
+Create it inside of "myproject" directory:
+
     python booktype_install.py -p myproject
+
+Create it inside of "book" directory for "ubuntu" platform:
+
     python booktype_install.py -o ubuntu -p book
 
 
