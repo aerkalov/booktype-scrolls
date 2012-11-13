@@ -1,10 +1,7 @@
-Install
-=======
+Booktype Easy Install v0.1
+==========================
 
-
-
-Wiki page:
-* https://github.com/aerkalov/booktype-scrolls/wiki/Booktype-Easy-Install
+This script will help you install and setup Booktype. It will take care of known problems on different platforms and manage setup process for you. 
 
 Tested on
 ---------
@@ -12,13 +9,16 @@ Tested on
 * Ubuntu 12.04
 * CentOS 6.3
 * Debian 6
+* Mac OS X 10.5/10.6/10.8 [with Homebrew]
 
 Start it
 --------
-Download the script and execute it. It will download and install required packages. When it is done it will tell you how to create user account and start Booktype. You don’t need to be root to start this install script but you do need sudo permissions in case it must install some system packages. You will need to confirm installation of new packages and you will be informed which commands are being executed in the background. Without your permission new packages will not be installed on the system. Feel free to analyze the script before you start it.
+Download the script and execute it. It will download and install required packages. When it is done it will tell you how to create user account and start Booktype. 
 
     wget https://raw.github.com/aerkalov/booktype-scrolls/master/scripts/install/booktype_install.py 
     python booktype_install.py
+
+By default it will create _mybooktype_ directory (your user must have permissions to do so) in your current directory.
 
 Arguments
 ---------

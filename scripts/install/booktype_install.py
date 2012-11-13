@@ -34,7 +34,8 @@ PACKAGES = {'debian': ['python', 'python-dev', 'sqlite3', 'git-core',
             'centos': ['python', 'python-devel', 'sqlite', 'git',
                        'python-virtualenv', 'python-pip', 'redis',
                        'libxml2-devel', 'libxslt-devel',
-                       'libjpeg', 'libjpeg-devel', 'zlib', 'zlib-devel']
+                       'libjpeg', 'libjpeg-devel', 'zlib', 'zlib-devel'],
+            'osx':    ['git', 'redis', 'libjpeg', 'libpng', 'libxml2']
            }
 
 COLOR = {'green': '32',
@@ -61,7 +62,7 @@ def fmt(s, color="gray", bold = False):
 
 def showIntro():
     s = """     _______
-    /      /,   Booktype Easy Install v0.0.1 
+    /      /,   Booktype Easy Install v0.1
    /      //          
   /______//     https://github.com/aerkalov/booktype-scrolls
  (______(/         
@@ -75,7 +76,8 @@ def showNotSupported():
               * Ubuntu 10.04
               * Ubuntu 12.04
               * CentOS 6.3
-              * Debian 6\n""", "yellow")
+              * Debian 6
+              * Mac OS X\n""", "yellow")
 
 def _ubuntuPackageInstalled(packageName):
     ret = subprocess.call('dpkg-query -s %s 1>/dev/null 2>/dev/null' % packageName, shell=True)
@@ -161,6 +163,60 @@ def _centosCheckPrerequisite():
         print fmt("[HOW TO FIX] su -c 'yum groupinstall \"Development Tools\"'", "yellow")
         sys.exit(1)
 
+def _osxPackageInstalled(packageName):
+    ret = subprocess.call('brew list %s 1>/dev/null 2>/dev/null' % packageName, shell=True)
+    return ret
+
+def _osxInstallPackages(packages):
+    print "Your system is missing couple of required packages. Let's install them!", 
+
+    command = "brew install %s" % ' '.join(needToInstall)
+
+    print fmt('\n$ ' + command + '\n', 'blue')
+    ret = subprocess.call(command, shell=True)
+
+    return ret
+
+def _osxCheckManually(packages):
+    # do not need this
+    if 'git' in packages:
+        ret = subprocess.call('git 1>/dev/null 2>/dev/null', shell=True)
+        if ret == 1:
+            packages.remove('git')
+
+    return packages
+
+
+def _osxCheckPrerequisite():
+    # check if Brew is installed
+    ret = subprocess.call('brew 1>/dev/null 2>/dev/null', shell=True)
+    if ret != 1:
+        print fmt("[WHAT TO DO]", "yellow")
+        print fmt("You should install Homegrew to continue any further. We need  Homegrew to install Redis, PostgreSQL, ...", "yellow")
+        print fmt("              http://mxcl.github.com/homebrew/", "yellow")
+        sys.exit(1)
+
+    # check if gcc installed
+    ret = subprocess.call('gcc 1>/dev/null 2>/dev/null', shell=True)
+    if ret == 127:
+        print fmt("\n[ERROR] Looks like you don't have developement tools installed. Install them and try again.", "red", True)
+        sys.exit(1)
+
+    ret = subprocess.call('pip 1>/dev/null 2>/dev/null', shell=True)
+    if ret != 2:
+        print fmt("\n[ERROR] You do not have PIP installed. Install it and start this script again.", "red", True)
+        print fmt("[HOW TO PIX]", "yellow")
+        print fmt("     sudo easy_install pip", "yellow")
+        sys.exit(1)
+            
+    ret = subprocess.call('virtualenv 1>/dev/null 2>/dev/null', shell=True)
+    if ret != 2:
+        print fmt("\n[ERROR] You do not have Virtual Python Environment installed. Install it and start this script again.", "red", True)
+        print fmt("[HOW TO FIX]", "yellow")
+        print fmt("     sudo pip install virtualenv", "yellow")
+        sys.exit(1)
+
+
 CALLBACKS = {'debian': {'package_installed': _debianPackageInstalled,
                         'install_packages': _debianInstallPackages,
                         'check_if_manually': _debianCheckManually,
@@ -173,12 +229,18 @@ CALLBACKS = {'debian': {'package_installed': _debianPackageInstalled,
                         'check_prerequisite': _debianCheckPrerequisite
                        },
 
-
              'centos': {'package_installed': _centosPackageInstalled,
                         'install_packages': _centosInstallPackages,
                         'check_if_manually': _centosCheckManually,
                         'check_prerequisite': _centosCheckPrerequisite
+                       },
+
+             'osx':    {'package_installed': _osxPackageInstalled,
+                        'install_packages': _osxInstallPackages,
+                        'check_if_manually': _osxCheckManually,
+                        'check_prerequisite': _osxCheckPrerequisite
                        }
+
             }
 
 def getDistribution():
@@ -201,6 +263,17 @@ def getDistribution():
 
     if ret == 0:
         return 'centos'
+
+    # Check if this is Mac OS X
+    try:
+        p = subprocess.Popen("uname -s", shell=True, 
+                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+        dist = p.stdout.read()
+
+        if 'Darwin' in dist:
+            return 'osx'
+    except OSError:
+        pass
 
     return None
 
@@ -247,7 +320,8 @@ if __name__ == '__main__':
         print fmt("[WHAT TO DO] Remove directory '%s', install it at another location or choose a different project name..\n" % projectDir, "yellow")
         sys.exit(1)
 
-    command = 'virtualenv %s' % projectDir
+    # Maybe it needs virtualenv --distribute if this one fails
+    command = 'virtualenv --distribute %s' % projectDir
     print fmt('\n$ ' + command + '\n', 'blue')
     ret = subprocess.call(command, shell=True)
     if ret != 0:
@@ -257,6 +331,12 @@ if __name__ == '__main__':
 
     if platform in ['debian', 'ubuntu']:
         command = '. %s/bin/activate && pip install Django==1.3 South==0.7.5 unidecode lxml PIL' % projectDir
+    elif platform in ['osx']:
+        p = subprocess.Popen('find /usr/local/ -name xml2-config', shell=True, 
+                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+        confPath = p.stdout.read().strip()
+
+        command = '. %s/bin/activate && pip install lxml --install-option="--with-xml2-config=%s"' % (projectDir, confPath)
     else:
         command = '. %s/bin/activate && pip install Django==1.3 South==0.7.5 unidecode lxml PIL' % projectDir
 
@@ -265,6 +345,15 @@ if __name__ == '__main__':
     if ret != 0:
         print fmt("\n[ERROR] Could not install Python modules!\n", "red", True)
         sys.exit(1)
+
+    if platform in ['osx']:
+        command = '. %s/bin/activate && pip install Django==1.3 South==0.7.5 unidecode PIL simplejson' % projectDir
+        print fmt('\n$ ' + command +'\n', 'blue')
+        ret = subprocess.call(command, shell=True)
+        if ret != 0:
+            print fmt("\n[ERROR] Could not install Python modules!\n", "red", True)
+            sys.exit(1)
+        
 
     command = 'cd %s && git clone https://github.com/sourcefabric/Booktype.git' % projectDir
     print fmt('\n$ ' + command +'\n', 'blue')
@@ -315,6 +404,17 @@ django-admin.py runserver 0.0.0.0:%(port)d
         print fmt("[WHAT TO DO] Check permissions on '%s' directory. Check if your disk is full.\n" % projectDir, "yellow")
         sys.exit(1)
 
+    extraDocs = ''
+    if platform in ['osx']:
+        extraDocs = "\n".join(['echo',
+                               'echo "===================================================================="',
+                               'echo "Warning Mac OS X user!"',
+                               'echo "Redis database MUST be started before you start Booktype."',
+                               'echo "To find out more write:"',
+                               'echo "      brew info redis"',
+                               'echo "===================================================================="',
+                               'echo'])
+
     script = '''#!/usr/bin/env bash
 
 . %(cwd)s/%(project)s/bin/activate
@@ -325,8 +425,9 @@ echo
 echo "---------------------------------------------------------------"
 echo "Use this command to start Booktype:"
 echo "%(cwd)s/%(project)s/start.sh"
+%(extra)s
 echo "---------------------------------------------------------------"
-''' % {'cwd': workingDir, 'project': projectDir}
+''' % {'cwd': workingDir, 'project': projectDir, 'extra': extraDocs}
 
     try:
         file('%s/create.sh' % projectDir, 'w').write(script)
