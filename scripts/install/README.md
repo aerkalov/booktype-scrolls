@@ -34,6 +34,11 @@ Create it inside of "book" directory for "ubuntu" platform:
 
     python booktype_install.py -o ubuntu -p book
 
+More info
+---------
+* http://www.binarni.net/2013/01/booktype-scrolls-ubuntu-installation/
+* http://www.binarni.net/2012/07/booktype-easy-install/
+
 
 Author
 ------
